@@ -1,0 +1,14 @@
+[project]
+name = "testharness"
+version = "0.1.0"
+description = "Locally exercise the dnv_windfarmer_sdk package"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "dnv_windfarmer_client",
+    "dnv_windfarmer_sdk",
+]
+
+[tool.uv.sources]
+dnv_windfarmer_sdk = { path = "../dnv_windfarmer_sdk", editable = true }
+dnv_windfarmer_client = { path = "../dnv_windfarmer_client", editable = true }

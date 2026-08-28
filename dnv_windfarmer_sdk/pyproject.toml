@@ -1,0 +1,24 @@
+[project]
+name = "dnv_windfarmer_sdk"
+version = "0.1.0"
+description = "Python SDK to access the WindFarmer API"
+readme = "README.md"
+authors = [
+    { name = "Olly Maunder", email = "oliver.maunder@dnv.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "dnv_windfarmer_client",
+    "progressbar2>=4.6.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.0,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = "."
+module-name = "windfarmer"
+
+[tool.uv.sources]
+dnv-windfarmer-client = { path = "../dnv_windfarmer_client", editable = true }

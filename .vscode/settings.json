@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/dnv_windfarmer_client",
+        "${workspaceFolder}/dnv_windfarmer_sdk",
+    ]
+}

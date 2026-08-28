@@ -1,20 +1,61 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# WindFarmer Python SDK
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+Python tooling for calling the WindFarmer Services API.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+## Repo layout
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+- [openapi-specs/](openapi-specs) — OpenAPI spec(s) for the WindFarmer Services API.
+- [dnv_windfarmer_client/](dnv_windfarmer_client) — Low-level API client and models. **Generated code, do not edit by hand** (see below).
+- [dnv_windfarmer_sdk/](dnv_windfarmer_sdk) — Hand-written SDK that wraps the generated client with a friendlier API.
+- [testharness/](testharness) — A small standalone project for manually exercising the SDK against a real API.
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Prerequisites
+
+This repo uses [`uv`](https://docs.astral.sh/uv/) for Python packaging, dependency management and virtual environments. Install it by following the [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/), then see the [uv guide to projects](https://docs.astral.sh/uv/guides/projects/) for an overview of common commands (`uv sync`, `uv run`, `uv add`, etc.).
+
+Generating the API client also requires [Docker](https://docs.docker.com/get-docker/) to be installed and running.
+
+## Generating the API client
+
+The [dnv_windfarmer_client/](dnv_windfarmer_client) package is generated from the OpenAPI spec using [openapi-generator](https://openapi-generator.tech/) and should not be edited directly — any manual changes will be lost the next time it is regenerated.
+
+To (re)generate it, run one of the generator scripts from the repo root:
+
+```bash
+./generate_client.sh      # Linux/macOS
+```
+
+```powershell
+./generate_client.ps1     # Windows/PowerShell
+```
+
+Both scripts run the `openapi-generator-cli` Docker image against [openapi-specs/wfservices-final.json](openapi-specs/wfservices-final.json) and write the generated code into [dnv_windfarmer_client/](dnv_windfarmer_client).
+
+## Trying it out
+
+[testharness/main.py](testharness/main.py) contains a small demo that calls the API status endpoint and runs an AEP calculation using sample data.
+
+Create an environment variable called `WINDFARMER_ACCESS_KEY`, containing your API key from [the DNV Renewables Services portal](https://renewablesservices.dnv.com/).
+
+```bash
+cd testharness
+uv run main.py
+```
+
+## Building the packages
+
+Both packages are built with `uv build`, which produces a wheel and sdist in a `dist/` folder for each package.
+
+### Bash on Linux
+```bash
+./generate_client.sh                 # (re)generate dnv_windfarmer_client — see above
+cd dnv_windfarmer_client && uv build && cd ..
+cd dnv_windfarmer_sdk && uv build && cd ..
+```
+
+### Powershell on Windows
+```powershell
+.\generate_client.ps1                # (re)generate dnv_windfarmer_client — see above
+Push-Location dnv_windfarmer_client; uv build; Pop-Location
+Push-Location dnv_windfarmer_sdk; uv build; Pop-Location
+```

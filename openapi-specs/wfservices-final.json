@@ -1,0 +1,3130 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "WindFarmer Services API",
+    "description": "A DNV WindFarmer calculation services API.",
+    "contact": {
+      "name": "DNV",
+      "url": "https://www.dnv.com",
+      "email": "windfarmer@dnv.com"
+    },
+    "version": "3.3"
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "paths": {
+    "/AnnualEnergyProductionAsync": {
+      "post": {
+        "tags": [
+          "AnnualEnergyProductionAsync"
+        ],
+        "summary": "Queues an energy calculation to be executed with the given inputs.",
+        "requestBody": {
+          "description": "Energy efficiencies calculation inputs.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnergyCalculationInputs"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnergyCalculationInputs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnergyCalculationInputs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnergyCalculationInputs"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "The calculation was queued successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculationQueuedResult"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculationQueuedResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculationQueuedResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "AnnualEnergyProductionAsync"
+        ],
+        "summary": "Cancels the running of a calculation for the given Id.",
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "query",
+            "description": "The ID of the calculation.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The status was queried successfully."
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "AnnualEnergyProductionAsync"
+        ],
+        "summary": "Gets the status of an async AnnualEnergyProduction calculation.",
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "query",
+            "description": "The ID of the calculation.",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The status was queried successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnualEnergyProductionJobStatus"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnualEnergyProductionJobStatus"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnualEnergyProductionJobStatus"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No calculation exists with the given ID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/AnnualEnergyProduction": {
+      "post": {
+        "tags": [
+          "AnnualEnergyProduction"
+        ],
+        "summary": "Gets the energy calculation result for the given inputs.",
+        "requestBody": {
+          "description": "Energy efficiencies calculation inputs.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnergyCalculationInputs"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnergyCalculationInputs"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnergyCalculationInputs"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnergyCalculationInputs"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Calculation results were retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnualEnergyProductionResults"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnualEnergyProductionResults"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnualEnergyProductionResults"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/BlockageCorrection": {
+      "post": {
+        "tags": [
+          "BlockageCorrection"
+        ],
+        "summary": "Gets the blockage correction result for the given inputs.",
+        "requestBody": {
+          "description": "The blockage model calculation inputs.",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BeetModelInput"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BeetModelInput"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BeetModelInput"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BeetModelInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Calculation results were retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BeetModelOutput"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BeetModelOutput"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BeetModelOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error."
+          }
+        }
+      }
+    },
+    "/Status": {
+      "get": {
+        "tags": [
+          "Status"
+        ],
+        "summary": "Checks the status of the API and validates authentication.",
+        "responses": {
+          "200": {
+            "description": "Returns Ok for successful status check.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/AtmosphericConditions": {
+      "get": {
+        "tags": [
+          "AtmosphericConditions"
+        ],
+        "summary": "Performs comprehensive site classification and returns atmospheric condition data\ncompatible with WindFarmer.Calculations.DataModel for flow modeling applications.\nIncludes atmospheric stability weights derived from ERA5 data and vertical profiles.",
+        "parameters": [
+          {
+            "name": "Lat",
+            "in": "query",
+            "description": "Latitude of the site in decimal degrees (-85 to 85)",
+            "schema": {
+              "maximum": 85,
+              "minimum": -85,
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "Lon",
+            "in": "query",
+            "description": "Longitude of the site in decimal degrees (-180 to 180)",
+            "schema": {
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "Radius",
+            "in": "query",
+            "description": "Analysis radius in kilometers (0-100, default: 50.0)",
+            "schema": {
+              "maximum": 100,
+              "minimum": 0.1,
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "LandFractionThreshold",
+            "in": "query",
+            "description": "Threshold for land classification (0.0-1.0, default: 0.2)",
+            "schema": {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comprehensive site classification with atmospheric conditions and metadata",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComprehensiveSiteClassification"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComprehensiveSiteClassification"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComprehensiveSiteClassification"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT bearer token.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "CalculationStatus": {
+        "enum": [
+          "SUCCESS",
+          "FAILED",
+          "PENDING",
+          "RUNNING",
+          "CANCELLED",
+          "ABANDONED"
+        ]
+      },
+      "Location": {
+        "type": "object",
+        "properties": {
+          "easting_m": {
+            "type": "number",
+            "description": "Gets the easting. Units: m.",
+            "format": "double"
+          },
+          "northing_m": {
+            "type": "number",
+            "description": "Gets the northing. Units: m.",
+            "format": "double"
+          },
+          "terrainHeightAboveSeaLevel_m": {
+            "type": "number",
+            "description": "Gets the height above sea level. Units: m.",
+            "format": "double"
+          }
+        },
+        "description": "Represent the 3D properties of a site location."
+      },
+      "TurbineResult": {
+        "type": "object",
+        "properties": {
+          "turbineName": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The turbine name."
+          },
+          "turbineLocation": {
+            "description": "The turbine location.",
+            "$ref": "#/components/schemas/Location"
+          },
+          "windFarmName": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The wind farm name."
+          },
+          "idealAnnualYield_MWh_per_year": {
+            "type": "number",
+            "description": "A reference yield that represents a theoretical production where the turbine is located at the location of its initiation mast. Units: MWh/yr",
+            "format": "double"
+          },
+          "grossAnnualYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output assuming no wake losses, no cut-out hysteresis and no curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "internalBlockageOnAnnualYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output including internal blockage efficiency, only different to BlockageOn variant for CFDML as a wake calculation.",
+            "format": "double"
+          },
+          "blockageOnAnnualYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output including blockage efficiency, but with no internal wakes, no large wind farm correction, no cut-out hysteresis and no curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "internalWakesOnAnnualYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output including wake losses from this wind farm only, but with no large wind farm correction, no cut-out hysteresis and no curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "hysteresisAdjustmentOnAnnualYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output including wake losses from this wind farm only and cut-out hysteresis but no large wind farm correction and no curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "largeWindFarmCorrectionOnAnnualYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output including wake losses from this wind farm only and cut-out hysteresis and including large wind farm correction but not curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "neighborsWakesOnAnnualYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output including wake losses from this and neighboring wind farms, and cut-out hysteresis, and including large wind farm correction but not curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "fullAnnualYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output from the full model, included all known effects. Units: MWh/yr",
+            "format": "double"
+          },
+          "tuningAnnualYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output from the full model, included effects selected in the tuning process. Units: MWh/yr",
+            "format": "double"
+          },
+          "meanTurbulenceIntensity": {
+            "type": [
+              "null",
+              "object"
+            ],
+            "additionalProperties": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Mean turbulence intensity for each variant"
+          },
+          "freeMeanWindSpeed_m_per_s": {
+            "type": "number",
+            "description": "The free stream mean wind speed, excluding any wake effects. Units: m/s",
+            "format": "double"
+          },
+          "fullMeanWindSpeed_m_per_s": {
+            "type": "number",
+            "description": "The mean wind speed including wake effects from the full model. Units: m/s",
+            "format": "double"
+          },
+          "ambientMeanTurbulenceIntensity_percentage": {
+            "type": "number",
+            "description": "The mean ambient turbulence intensity, excludes any wake effects. Units: percent",
+            "format": "double"
+          },
+          "fullMeanTurbulenceIntensity_percentage": {
+            "type": "number",
+            "description": "The mean turbulence intensity, including all known effects. Units: percent",
+            "format": "double"
+          },
+          "airDensityAtHubHeight_kg_per_m3": {
+            "type": "number",
+            "description": "Air density at turbine hub height.  Units: kg/m3",
+            "format": "double"
+          },
+          "usedPerformanceTableIds": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "description": "A list of the performance data table ids (mode@air density) used by the calculation.\nShutdown has been filtered out"
+          }
+        },
+        "description": "The results, from an Energy Calculation, associated with one turbine"
+      },
+      "TurbineFlowAndPerformanceMatrix": {
+        "type": "object",
+        "properties": {
+          "turbineName": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The turbine name."
+          },
+          "windFarmName": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The wind farm name."
+          },
+          "directionForFirstBinCentre_degrees": {
+            "type": "number",
+            "description": "The direction of the first direction bin. Units: degrees",
+            "format": "double"
+          },
+          "binCenterWindSpeedsAtMast_m_per_s": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "The bin center wind speeds at the associated mast. Units: m/s"
+          },
+          "ambientWindSpeed_m_per_s": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is direction sectors.\nInner List is turbine ambient wind speed at each mast wind speed. Units: m/s"
+          },
+          "ambientTurbulenceIntensity_percentage": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is direction sectors.\nInner List is turbine ambient wind speed at each mast wind speed. Units: percent"
+          },
+          "dominantWakeCenterLineWindSpeed_m_per_s": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is direction sectors.\nInner List is dominant wake center-line wind speed at each mast wind speed."
+          },
+          "dominantWakeWidth": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is direction sectors.\nInner List is dominant wake width at each mast wind speed."
+          },
+          "dominantWakeOffset_m": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is direction sectors.\nInner List is dominant wake offset at each mast wind speed. Units: m"
+          },
+          "wakedWindSpeed_m_per_s": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is direction sectors.\nInner List is wake adjusted wind speed at each mast wind speed. Units: m/s"
+          },
+          "atmosphericConditionAwareWakedWindSpeed_m_per_s": {
+            "type": [
+              "null",
+              "object"
+            ],
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "format": "double"
+                }
+              }
+            },
+            "description": "Dict keys are atmosphericConditionClassIds\nOuter List is direction sectors.\nInner List is wake adjusted wind speed at each mast wind speed for the given atmospheric condition class. Units: m/s"
+          },
+          "wakedTurbulenceIntensity_percentage": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is direction sectors.\nInner List is wake adjusted turbulence intensity at each mast wind speed. Units: percent"
+          },
+          "spotPowerOutput_W": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is direction sectors.\nInner List is turbine power output at each mast wind speed. Units: W"
+          },
+          "atmosphericConditionAwareSpotPowerOutput_W": {
+            "type": [
+              "null",
+              "object"
+            ],
+            "additionalProperties": {
+              "type": "array",
+              "items": {}
+            },
+            "description": "Dict keys are atmosphericConditionClassIds\nOuter List is direction sectors.\nInner List is turbine power output at each mast wind speed for the given atmospheric condition class. Units: W"
+          },
+          "binPowerOutput_W": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is direction sectors.\nInner List is turbine power output representative of the wind speed bin. Units: W"
+          },
+          "probabilityDistribution": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is the direction sectors.\nInner List is the turbine probability distribution at each mast wind speed."
+          },
+          "upstreamTurbineCausingWake": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "Outer list is direction sectors.\nInner list is the name of the upstream turbine that causes the wake."
+          },
+          "turbineOperationalMode": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "description": "Outer list is direction sectors.\nInner list is the turbine active mode at each mast wind speed."
+          },
+          "mastToTurbineSpeedUp": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Gets or sets the mast to turbine speed up."
+          }
+        },
+        "description": "The turbine flow and performance matrix data for one turbine."
+      },
+      "WindFarmAepOutput": {
+        "type": "object",
+        "properties": {
+          "windFarmName": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The wind farm name."
+          },
+          "grossAnnualEnergyYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output assuming no blockage, no wake losses, no cut-out hysteresis and no curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "idealAnnualEnergyYield_MWh_per_year": {
+            "type": "number",
+            "description": "The ideal energy yield. Units : MWh/yr",
+            "format": "double"
+          },
+          "internalBlockageOnAnnualEnergyYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output including internal blockage efficiency, only different to BlockageOn variant for CFDML as a wake calculation.",
+            "format": "double"
+          },
+          "blockageOnAnnualEnergyYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output assuming no wake losses, no cut-out hysteresis and no curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "internalWakesOnAnnualEnergyYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output including wake losses from this wind farm only, but with no large wind farm correction, no cut-out hysteresis and no curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "hysteresisAdjustmentOnAnnualEnergyYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output including wake losses from this wind farm only and cut-out hysteresis but no large wind farm correction and no curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "largeWindFarmCorrectionOnAnnualEnergyYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output including wake losses from this wind farm only and cut-out hysteresis and including large wind farm correction but not curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "neighborsWakesOnAnnualEnergyYield_MWh_per_year": {
+            "type": "number",
+            "description": "The energy output including wake losses from this and neighboring wind farms, and cut-out hysteresis, and including large wind farm correction but not curtailment. Units: MWh/yr",
+            "format": "double"
+          },
+          "fullAnnualEnergyYield_MWh_per_year": {
+            "type": "number",
+            "description": "The full anuual energy yield. Units: MWh/yr",
+            "format": "double"
+          },
+          "turbineResults": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TurbineResult"
+            },
+            "description": "Turbines on the wind farm."
+          },
+          "turbineFlowAndPerformanceMatricesWithMastBinning": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TurbineFlowAndPerformanceMatrix"
+            },
+            "description": "Flow and performance matrix data with mast reference wind speeds."
+          },
+          "turbineFlowAndPerformanceMatricesWithTurbineBinning": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TurbineFlowAndPerformanceMatrix"
+            },
+            "description": "Flow and performance matrix data with turbine local wind speeds."
+          }
+        },
+        "description": "Annual energy production results for a wind farm."
+      },
+      "SensitivityCurveEntry": {
+        "type": "object",
+        "properties": {
+          "windSpeedPerturbation": {
+            "type": "number",
+            "description": "Gets or sets the WindSpeedPerturbation",
+            "format": "double"
+          },
+          "powerMW": {
+            "type": "number",
+            "description": "Gets or sets the power in MW.",
+            "format": "double"
+          },
+          "energyPerturbation": {
+            "type": "number",
+            "description": "Gets or sets the EnergyPerturbation",
+            "format": "double"
+          }
+        },
+        "description": "A class for holding a sensitivity curve entry."
+      },
+      "OverallSensitivityCurve": {
+        "type": "object",
+        "properties": {
+          "entries": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/SensitivityCurveEntry"
+            },
+            "description": "Gets or sets the Entries"
+          }
+        },
+        "description": "A class for holding an overall sensitivity curve."
+      },
+      "WindClimateSensitivityCurve": {
+        "type": "object",
+        "properties": {
+          "windClimateId": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the wind climate ID."
+          },
+          "entries": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/SensitivityCurveEntry"
+            },
+            "description": "Gets or sets the Entries"
+          }
+        },
+        "description": "A class for holding a wind climate sensitivity curve."
+      },
+      "TurbineSensitivityCurve": {
+        "type": "object",
+        "properties": {
+          "windFarm": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the wind farm name"
+          },
+          "turbine": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Gets or sets the turbine name"
+          },
+          "entries": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/SensitivityCurveEntry"
+            },
+            "description": "Gets or sets the Entries"
+          }
+        },
+        "description": "A class for holding a wind climate sensitivity curve."
+      },
+      "SensitivityCurveCalculationOutputs": {
+        "type": "object",
+        "properties": {
+          "overallSensitivityCurve": {
+            "description": "Gets or sets the overall sensitivity curve DTO.",
+            "$ref": "#/components/schemas/OverallSensitivityCurve"
+          },
+          "windClimateSensitivityCurves": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/WindClimateSensitivityCurve"
+            },
+            "description": "Gets or sets the wind climate sensitivity curve DTOs."
+          },
+          "turbineSensitivityCurves": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TurbineSensitivityCurve"
+            },
+            "description": "Gets or sets the turbine climate sensitivity curve DTOs."
+          }
+        },
+        "description": "A class for holding the sensitivity curve calculation results."
+      },
+      "TurbineLocation": {
+        "type": "object",
+        "properties": {
+          "easting_m": {
+            "type": "number",
+            "description": "The East position of the turbine. Units: m.",
+            "format": "double"
+          },
+          "northing_m": {
+            "type": "number",
+            "description": "The North position of the turbine. Units: m.",
+            "format": "double"
+          },
+          "hubHeight_m": {
+            "type": "number",
+            "description": "The hub height of the turbine. Units: m.",
+            "format": "double"
+          },
+          "rotorDiameter_m": {
+            "type": "number",
+            "description": "The rotor diameter. Units: m.",
+            "format": "double"
+          }
+        },
+        "description": "The turbine position and dimensions."
+      },
+      "TurbinePerformance": {
+        "type": "object",
+        "properties": {
+          "windSpeed_m_per_s": {
+            "type": "number",
+            "description": "The wind speed. Units: m/s",
+            "format": "double"
+          },
+          "powerOutput_kW": {
+            "type": "number",
+            "description": "The power output. Units: kilo watts",
+            "format": "double"
+          },
+          "thrustCoefficient": {
+            "type": "number",
+            "description": "The thrust coefficient.",
+            "format": "double"
+          },
+          "frequency_pc": {
+            "type": "number",
+            "description": "The probability of this wind speed occurring. Units: %.",
+            "format": "double"
+          }
+        },
+        "description": "Performance data for turbine."
+      },
+      "BeetModelInput": {
+        "type": "object",
+        "properties": {
+          "turbines": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TurbineLocation"
+            },
+            "description": "Details of the turbines on the wind farm."
+          },
+          "turbinePerformance": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TurbinePerformance"
+            },
+            "description": "A list of turbine performance characteristics at different wind speeds."
+          },
+          "significantAtmosphericStability": {
+            "type": "boolean",
+            "description": "Specifies whether there is significant atmospheric stability (true), or if the atmosphere is predominantly neutral or unstable (false)."
+          }
+        },
+        "description": "Input model used for the calculation, includes turbine locations and performance curve."
+      },
+      "IntermediateBeetRun": {
+        "type": "object",
+        "properties": {
+          "blockageInput": {
+            "description": "Gets or sets the blockage model input.",
+            "$ref": "#/components/schemas/BeetModelInput"
+          },
+          "turbineModelName": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The turbine model name."
+          },
+          "hubHeight": {
+            "type": "number",
+            "description": "The turbine model hub height",
+            "format": "double"
+          },
+          "averageAirDensityAtHubHeight": {
+            "type": "number",
+            "description": "The average air density at hub height.",
+            "format": "double"
+          },
+          "windClimateName": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The wind climate name."
+          },
+          "averageAdjustedFreeStreamMeanWindSpeed": {
+            "type": "number",
+            "description": "The average adjusted free stream mean wind speed.",
+            "format": "double"
+          },
+          "weightedResult": {
+            "type": "number",
+            "description": "The weighted result.",
+            "format": "double"
+          },
+          "blockageEffect": {
+            "type": "number",
+            "description": "The blockage effect.",
+            "format": "double"
+          },
+          "densityRotorDiameters": {
+            "type": "number",
+            "description": "Gets the density rotor diameters (Internal use only).",
+            "format": "double"
+          },
+          "blockageLossWs": {
+            "type": "number",
+            "description": "Gets the blockage loss wind speed percentage (Internal use only).",
+            "format": "double"
+          },
+          "hubHeightRotorDiameterMultiplier": {
+            "type": "number",
+            "description": "Gets the hub height rotor diameter multiplier (Internal use only).",
+            "format": "double"
+          }
+        },
+        "description": "A class to hold an intermediate blockage run."
+      },
+      "WeightedBeetIntermediateData": {
+        "type": "object",
+        "properties": {
+          "windFarmName": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "description": "Gets or sets the used windFarms."
+          },
+          "intermediateBlockageRun": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/IntermediateBeetRun"
+            },
+            "description": "An intermediate blockage run."
+          }
+        },
+        "description": "The weighted blockage model intermediate result data."
+      },
+      "TurbineBlockageEfficiency": {
+        "required": [
+          "turbineName",
+          "blockageEfficiency"
+        ],
+        "type": "object",
+        "properties": {
+          "turbineName": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Turbine name"
+          },
+          "blockageEfficiency": {
+            "type": "number",
+            "description": "Turbine blockage efficiency",
+            "format": "double"
+          }
+        },
+        "description": "A turbine blockage efficiency result"
+      },
+      "CfdmlTrainingSetAlignmentMetrics": {
+        "type": "object",
+        "properties": {
+          "edgesBelowMinPerc": {
+            "type": "number",
+            "description": "percent of gnn edge parameters in the call below the minimum encountered in the training set",
+            "format": "double"
+          },
+          "edgesAboveMaxPerc": {
+            "type": "number",
+            "description": "percent of gnn edge parameters in the call above the maximum encountered in the training set",
+            "format": "double"
+          },
+          "verticesBelowMinPerc": {
+            "type": "number",
+            "description": "percent of gnn vertex parameters in the call below the minimum encountered in the training set",
+            "format": "double"
+          },
+          "verticesAboveMaxPerc": {
+            "type": "number",
+            "description": "percent of gnn vertex parameters in the call above the maximum encountered in the training set",
+            "format": "double"
+          }
+        },
+        "description": "The training set alignment metrics."
+      },
+      "WeightedCfdmlIntermediateData": {
+        "type": "object",
+        "properties": {
+          "intermediateCfdmlV2Data": {
+            "type": [
+              "null",
+              "object"
+            ],
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TurbineBlockageEfficiency"
+                  }
+                }
+              }
+            },
+            "description": "The per-flowcase, per-turbine blockage efficiencies for the CFDML V2 model."
+          },
+          "intermediateCfdmlV1Data": {
+            "type": [
+              "null",
+              "object"
+            ],
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/TurbineBlockageEfficiency"
+                }
+              }
+            },
+            "description": "The per-flowcase, per-turbine blockage efficiencies for the CFDML V1 model."
+          },
+          "trainingSetAlignmentMetrics": {
+            "description": "The training set alignment metrics.",
+            "$ref": "#/components/schemas/CfdmlTrainingSetAlignmentMetrics"
+          }
+        }
+      },
+      "BlockageModelIntermediateData": {
+        "type": "object",
+        "properties": {
+          "intermediateData": {
+            "description": "The optional intermediate result data.",
+            "$ref": "#/components/schemas/WeightedBeetIntermediateData"
+          },
+          "intermediateCfdmlV2Data": {
+            "description": "The per-flowcase, per-turbine blockage efficiencies for the CFDML V2 model.",
+            "$ref": "#/components/schemas/WeightedCfdmlIntermediateData"
+          }
+        },
+        "description": "Blockage model intermediate data output"
+      },
+      "AnnualEnergyProductionResults": {
+        "type": "object",
+        "properties": {
+          "windFarmAepOutputs": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/WindFarmAepOutput"
+            },
+            "description": "Gets the wind farm annual energy production outputs.\nThe wind farm annual energy production output collection."
+          },
+          "weightedBlockageEfficiency": {
+            "type": "number",
+            "description": "The energy weighted blockage efficiency, calculated over all subject wind farms\nA value generally between 0.0 and 1.0 representing the blockage correction efficiency",
+            "format": "double"
+          },
+          "sensitivityCurves": {
+            "description": "Wind speed to energy perturbation sensitivty curve calculation results, \nReturned only when the calculateSensitivityCurve calculation option is true",
+            "$ref": "#/components/schemas/SensitivityCurveCalculationOutputs"
+          },
+          "blockageModelIntermediateData": {
+            "description": "Blockage model intermediate data.",
+            "$ref": "#/components/schemas/BlockageModelIntermediateData"
+          }
+        },
+        "description": "Results for the Annual Energy Production calculation."
+      },
+      "Stream": {
+        "type": [
+          "null",
+          "string"
+        ],
+        "format": "binary"
+      },
+      "AnnualEnergyProductionJobStatus": {
+        "type": "object",
+        "properties": {
+          "progress": {
+            "type": "number",
+            "description": "Gets the calculation progress, as a percentage between 0 and 100.",
+            "format": "double"
+          },
+          "message": {
+            "type": "string",
+            "description": "Gets a status message for the calculation as a whole."
+          },
+          "stageMessage": {
+            "type": "string",
+            "description": "Gets a status message for the current stage of the calculation."
+          },
+          "status": {
+            "description": "Gets the calculation status (e.g. Pending, Executing, Faulted, Completed.",
+            "$ref": "#/components/schemas/CalculationStatus"
+          },
+          "results": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "description": "Gets the results of a completed calculation.",
+                "$ref": "#/components/schemas/AnnualEnergyProductionResults"
+              }
+            ]
+          },
+          "resultsStream": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "description": "Gets a stream which can be used to retrieve the calculation results.",
+                "$ref": "#/components/schemas/Stream"
+              }
+            ]
+          }
+        },
+        "description": "Returns the status of an async AnnualEnergyProduction calculation."
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
+          },
+          "detail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "instance": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
+      "ProjectInfo": {
+        "required": [
+          "projectId",
+          "siteLatitude",
+          "siteLongitude"
+        ],
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "maxLength": 255,
+            "minLength": 1,
+            "pattern": "^[^?&\\^$\\£#@!:;<>’\\*\\{\\}\\\\\\/]+$",
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "siteLatitude": {
+            "maximum": 90,
+            "minimum": -90,
+            "type": "number",
+            "description": "Latitude of the center point of the site",
+            "format": "double"
+          },
+          "siteLongitude": {
+            "maximum": 180,
+            "minimum": -180,
+            "type": "number",
+            "description": "Longitude of the center point of the site",
+            "format": "double"
+          }
+        },
+        "description": "High level information about a project"
+      },
+      "TurbineManagementRule": {
+        "type": "object",
+        "properties": {
+          "windDirectionFrom": {
+            "type": "number",
+            "description": "The minimum wind direction that the rule applies to.",
+            "format": "double"
+          },
+          "windDirectionTo": {
+            "type": "number",
+            "description": "The maximum wind direction that the rule applies to.",
+            "format": "double"
+          },
+          "minimumWindSpeed_m_per_s": {
+            "type": "number",
+            "description": "The minimum wind speed that the rule applies to.",
+            "format": "double"
+          },
+          "maximumWindSpeed_m_per_s": {
+            "type": "number",
+            "description": "The maximum wind speed that the rule applies to.",
+            "format": "double"
+          },
+          "timeFromAsTimeOfDay": {
+            "pattern": "^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The start time of a daily time range specified as an absolute time of day."
+          },
+          "timeToAsTimeOfDay": {
+            "pattern": "^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The end time of daily time range specified as an absolute time of day."
+          },
+          "timeFromAsSunRiseOffset": {
+            "pattern": "^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The start time of a daily time range specified as an offset from sunrise.\nA +ve offset means after sunrise while a -ve means before sunrise."
+          },
+          "timeToAsSunRiseOffset": {
+            "pattern": "^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The end time of a daily time range specified as an offset from sunrise.\nA +ve offset means after sunrise while a -ve means before sunrise."
+          },
+          "timeFromAsSunSetOffset": {
+            "pattern": "^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The start time of a daily time range specified as an offset from sunset.\nA +ve offset means after sunset while a -ve means before sunset."
+          },
+          "timeToAsSunSetOffset": {
+            "pattern": "^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The end time of a daily time range specified as offset from sunset.\nA +ve offset means after sunset while a -ve means before sunset."
+          },
+          "startDayOfYear": {
+            "type": "integer",
+            "description": "The start day of year that the rule applies to, inclusive. Assumes non leap year.",
+            "format": "int32"
+          },
+          "endDayOfYear": {
+            "type": "integer",
+            "description": "The end day of year that the rule applies to, inclusive. Assumes non leap year.\nNote: if day 59 (28th of Feb) is specified, the calculation will interpret this as till the end of February\nwhich means that if a time series has records on the 29th of Feb these be included in this interval.",
+            "format": "int32"
+          },
+          "minimumTemperature_degrees_celsius": {
+            "type": "number",
+            "description": "The minimum temperature that the rule applies to in celsius.",
+            "format": "double"
+          },
+          "maximumTemperature_degrees_celsius": {
+            "type": "number",
+            "description": "The maximum temperature that the rule applies to in celsius.",
+            "format": "double"
+          },
+          "activeMode": {
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Active mode for the turbine. If shutdown, value should be \"ShutDown\"."
+          }
+        },
+        "description": "Data for one turbine management rule\nThe rule is that the turbine will be in active mode when the different conditions are met"
+      },
+      "Turbine": {
+        "required": [
+          "name",
+          "associatedWindClimateId",
+          "turbineModelId",
+          "location"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 500,
+            "pattern": "^[^@]*$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The turbine name. Should be unique within a wind farm."
+          },
+          "associatedWindClimateId": {
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The id of the associated wind climate."
+          },
+          "turbineModelId": {
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The unique id of the turbine model."
+          },
+          "isInstalled": {
+            "type": "boolean",
+            "description": "Whether the turbine is installed or not."
+          },
+          "productionYield": {
+            "type": "number",
+            "description": "The yield of the turbine. Units: MWh/year.",
+            "format": "double",
+            "default": 0
+          },
+          "confidenceWeighting": {
+            "type": "number",
+            "description": "The confidence weighting of rge ProductionYield.",
+            "format": "double",
+            "default": 0
+          },
+          "location": {
+            "description": "The location of the turbine.",
+            "$ref": "#/components/schemas/Location"
+          },
+          "curtailmentRules": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TurbineManagementRule"
+            },
+            "description": "The turbine management rules for the turbine."
+          },
+          "parkWakeDecayConstant": {
+            "type": "number",
+            "description": "Specifies the decay constant at the turbine, only defined when used in the Park calculation.",
+            "format": "double",
+            "default": 0.07
+          }
+        },
+        "description": "Models the location where the wind turbine is placed."
+      },
+      "WindFarm": {
+        "required": [
+          "name",
+          "turbines",
+          "isNeighbor",
+          "includeInBlockageCalculation"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 500,
+            "pattern": "^[^@]*$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The name of the wind farm."
+          },
+          "turbines": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/Turbine"
+            },
+            "description": "The collection of turbines in the wind farm."
+          },
+          "isNeighbor": {
+            "type": "boolean",
+            "description": "Specifies whether the wind farm should be considered a neighboring wind farm\nand therefore not included in the total energy yield."
+          },
+          "includeInBlockageCalculation": {
+            "type": "boolean",
+            "description": "Whether this wind farm should be included in the blockage calculation or not."
+          }
+        },
+        "description": "The data relating to one wind farm, mainly the collection of turbines in that wind farm."
+      },
+      "TurbineModelPerformanceDataPoint": {
+        "required": [
+          "windSpeed_m_per_s",
+          "powerOutput_W",
+          "rotorSpeed_radians_per_s",
+          "thrustCoefficient"
+        ],
+        "type": "object",
+        "properties": {
+          "windSpeed_m_per_s": {
+            "type": "number",
+            "description": "The wind speed.  Units: m/s",
+            "format": "double"
+          },
+          "powerOutput_W": {
+            "type": "number",
+            "description": "The power output.  Units: W",
+            "format": "double"
+          },
+          "rotorSpeed_radians_per_s": {
+            "type": "number",
+            "description": "The rotor speed.  Units: radians/s",
+            "format": "double"
+          },
+          "thrustCoefficient": {
+            "type": "number",
+            "description": "The thrust coefficient.  Units: -",
+            "format": "double"
+          },
+          "noiseDifferenceFromReferenceCurve_dB": {
+            "type": "number",
+            "description": "The noise difference from the reference curve.  Units: dB",
+            "format": "double",
+            "default": 0
+          }
+        },
+        "description": "Data for a single data point in the turbine model power curve."
+      },
+      "TurbineModelPerformance": {
+        "required": [
+          "turbineOperationalMode",
+          "adjustedHighSpeedCutOut_m_per_s",
+          "adjustedLowSpeedCutIn_m_per_s",
+          "lowSpeedCutIn_m_per_s",
+          "highSpeedCutOut_m_per_s",
+          "airDensity_kg_per_m3",
+          "performanceDataPoints"
+        ],
+        "type": "object",
+        "properties": {
+          "turbineOperationalMode": {
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The turbine mode, defaults to normal.",
+            "default": "normal"
+          },
+          "adjustedHighSpeedCutOut_m_per_s": {
+            "type": "number",
+            "description": "The high wind speed cut out, adjusted to model the hysteresis effect.  Units: m/s",
+            "format": "double"
+          },
+          "adjustedLowSpeedCutIn_m_per_s": {
+            "type": "number",
+            "description": "The low speed cut in, adjusted to model the hysteresis effect. Units: m/s",
+            "format": "double"
+          },
+          "lowSpeedCutIn_m_per_s": {
+            "type": "number",
+            "description": "The low wind speed cut in.  Units: m/s",
+            "format": "double"
+          },
+          "highSpeedCutOut_m_per_s": {
+            "type": "number",
+            "description": "The high wind speed cut out.  Units: m/s",
+            "format": "double"
+          },
+          "turbulenceIntensity": {
+            "type": "number",
+            "description": "The turbulence intensity. Meta data only, not used in calculations Units: percent",
+            "format": "double"
+          },
+          "airDensity_kg_per_m3": {
+            "type": "number",
+            "description": "The air density.  Units: kg/m3",
+            "format": "double"
+          },
+          "temperature_deg_C": {
+            "type": "number",
+            "description": "The temperature.  Units: Deg C",
+            "format": "double"
+          },
+          "yawMisalignment_degrees": {
+            "type": "number",
+            "description": "The yaw misalignment.  Units: degrees",
+            "format": "double"
+          },
+          "powerDeratingDelta_kW": {
+            "type": "number",
+            "description": "The power derating delta.  Units: kW",
+            "format": "double"
+          },
+          "performanceDataPoints": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TurbineModelPerformanceDataPoint"
+            },
+            "description": "The performance specific data."
+          }
+        },
+        "description": "Defines a turbine model power curve for a specific mode, air density etc."
+      },
+      "PowerControlType": {
+        "enum": [
+          "Pitch",
+          "Stall"
+        ],
+        "description": "How the turbine controls the turbine power above rated wind speed"
+      },
+      "WindSpeedClass": {
+        "enum": [
+          "Class1",
+          "Class2",
+          "Class3"
+        ],
+        "description": "The wind speed design classes as defined in IEC 61400-1"
+      },
+      "TurbulenceIntensityClass": {
+        "enum": [
+          "ClassA",
+          "ClassB",
+          "ClassC"
+        ],
+        "description": "The turbulence intensity design classes as defined in IEC 61400-1"
+      },
+      "TurbineModel": {
+        "required": [
+          "id",
+          "rotorDiameter_m",
+          "numberOfBlades",
+          "hubHeight_m",
+          "performanceData",
+          "powerControl"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The unique id of the turbine model."
+          },
+          "rotorDiameter_m": {
+            "type": "number",
+            "description": "The diameter of the turbine rotor.  Units: m",
+            "format": "double"
+          },
+          "numberOfBlades": {
+            "type": "integer",
+            "description": "The number of blades. Units: -",
+            "format": "int32"
+          },
+          "hubHeight_m": {
+            "type": "number",
+            "description": "The height of the hub above the turbine base.  Units: m",
+            "format": "double"
+          },
+          "performanceData": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TurbineModelPerformance"
+            },
+            "description": "The performance specific data."
+          },
+          "powerControl": {
+            "description": "The power control type of the turbine.",
+            "$ref": "#/components/schemas/PowerControlType"
+          },
+          "windSpeedClass": {
+            "description": "Wind speed class as per IEC edition 3 standard - '1', '2', '3'.",
+            "$ref": "#/components/schemas/WindSpeedClass"
+          },
+          "turbulenceIntensityClass": {
+            "description": "Turbulence intensity class as per IEC edition 3 standard - 'A', 'B', 'C'.",
+            "$ref": "#/components/schemas/TurbulenceIntensityClass"
+          },
+          "referenceNoiseLevel": {
+            "type": "number",
+            "description": "Reference noise level for this turbine. dB\nTODO this is a dummy really - need a whole noise DTO here including octave bands etc.",
+            "format": "double"
+          }
+        },
+        "description": "Model data for a particular Turbine model."
+      },
+      "WindClimate": {
+        "required": [
+          "id",
+          "location",
+          "heightAboveGround_m",
+          "numberOfDirectionSectors",
+          "directionForFirstBinCentre_degrees",
+          "windSpeedBinUpperLimits_m_per_s",
+          "probabilityDistribution",
+          "turbulenceIntensity"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Unique id for the wind climate, typically the mast name plus the height above ground.\nNeeds to be the same as property AssociatedWindClimateId in Turbine"
+          },
+          "location": {
+            "description": "The wind climate location: easting, northing and base height",
+            "$ref": "#/components/schemas/Location"
+          },
+          "heightAboveGround_m": {
+            "type": "number",
+            "description": "The wind climate height above ground. Units: m",
+            "format": "double"
+          },
+          "numberOfDirectionSectors": {
+            "type": "integer",
+            "description": "The number of directions for which there is climate data.  Units: -",
+            "format": "int32"
+          },
+          "directionForFirstBinCentre_degrees": {
+            "type": "number",
+            "description": "The wind direction of the first climate data point. Units: degrees",
+            "format": "double"
+          },
+          "windSpeedBinUpperLimits_m_per_s": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "The upper limit for each wind speed bin. It is assumed that the lower limit for each bin is the\nupper limit of the preceding bin, except for the first bin which is assumed to start at zero. Units: m/s"
+          },
+          "probabilityDistribution": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is direction sectors\nInner List is probabilities at each wind speed."
+          },
+          "turbulenceIntensity": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "format": "double"
+              }
+            },
+            "description": "Outer List is direction sectors\nInner List is turbulence intensity at each wind speed\nTI = std deviation of wind speed / mean wind speed\nNote: This is a ratio not a percent."
+          }
+        },
+        "description": "Data describing the wind climate at a particular elevation at a measurement location."
+      },
+      "WeibullSectorParameters": {
+        "required": [
+          "a",
+          "k",
+          "probability"
+        ],
+        "type": "object",
+        "properties": {
+          "a": {
+            "maximum": 100,
+            "minimum": 0,
+            "type": "number",
+            "description": "The Weibull scale parameter",
+            "format": "double"
+          },
+          "k": {
+            "maximum": 20,
+            "minimum": 0,
+            "type": "number",
+            "description": "The Weibull shape parameter",
+            "format": "double"
+          },
+          "probability": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number",
+            "description": "This direction sector probability. \nExpect that all sector probabilities add up to 1.0",
+            "format": "double"
+          }
+        },
+        "description": "The weibull parameters for a direction sector"
+      },
+      "WeibullWindClimate": {
+        "required": [
+          "id",
+          "location",
+          "heightAboveGround_m",
+          "numberOfDirectionSectors",
+          "directionForFirstBinCentre_degrees",
+          "sectorWeibullParameters",
+          "turbulenceIntensity"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Unique id for the wind climate, typically the mast/turbine name plus the height above ground.\nNeeds to be the same as property AssociatedWindClimateId in Turbine"
+          },
+          "location": {
+            "description": "The wind climate location: easting, northing and base height",
+            "$ref": "#/components/schemas/Location"
+          },
+          "heightAboveGround_m": {
+            "type": "number",
+            "description": "The wind climate height above ground. Units: m",
+            "format": "double"
+          },
+          "numberOfDirectionSectors": {
+            "type": "integer",
+            "description": "The number of directions for which there is climate data.  Units: -",
+            "format": "int32"
+          },
+          "directionForFirstBinCentre_degrees": {
+            "type": "number",
+            "description": "The wind direction of the first climate data point. Units: degrees",
+            "format": "double"
+          },
+          "sectorWeibullParameters": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/WeibullSectorParameters"
+            },
+            "description": "Weibull parameters for each sector. Length of list must be int WeibullWindClimate.NumberOfDirectionSectors and\nfirst element corresponds to direction double WeibullWindClimate.DirectionForFirstBinCentre\nSum of all sectors probabilities should be 1."
+          },
+          "turbulenceIntensity": {
+            "maximum": 2,
+            "minimum": 0,
+            "type": "number",
+            "description": "A flat turbulence intensity value. Units: ratio\nNote: This is a ratio not a percent.",
+            "format": "double"
+          }
+        },
+        "description": "Weibull parameters describing the wind climate at a particular height and location"
+      },
+      "AtmosphericConditionClass": {
+        "required": [
+          "id",
+          "boundaryLayerHeight_m",
+          "lapseRate_K_per_100m",
+          "deltaThetaAcrossInversionLayer_K",
+          "thicknessInversionLayer_m",
+          "heightsAboveSurface_m",
+          "turbulenceIntensityProfile",
+          "windSpeedVerticalGradientProfile_per_s_m"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "A unique atmospheric condition profile identifier."
+          },
+          "boundaryLayerHeight_m": {
+            "maximum": 5000,
+            "minimum": 1,
+            "type": "number",
+            "description": "Boundary layer height. Units: m",
+            "format": "double"
+          },
+          "lapseRate_K_per_100m": {
+            "maximum": 10,
+            "minimum": 0,
+            "type": "number",
+            "description": "Lapse rate in free atmosphere. Units: K/100m",
+            "format": "double"
+          },
+          "deltaThetaAcrossInversionLayer_K": {
+            "maximum": 100,
+            "minimum": 0,
+            "type": "number",
+            "description": "Change in potential temperature across inversion layer. Units: K",
+            "format": "double"
+          },
+          "thicknessInversionLayer_m": {
+            "maximum": 2000,
+            "minimum": 0,
+            "type": "number",
+            "description": "Thickness of inversion layer. Units: m",
+            "format": "double"
+          },
+          "heightsAboveSurface_m": {
+            "minItems": 2,
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Heights above surface for which the List&lt;double&gt; AtmosphericConditionClass.TurbulenceIntensityProfile and List&lt;double&gt; AtmosphericConditionClass.WindSpeedVerticalGradientProfile profile parameters are defined. \nRequires 2 or more elements that must be sorted in increasing order and cannot be negative. Units: m"
+          },
+          "turbulenceIntensityProfile": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Turbulence intensity profile at heights defined in List&lt;double&gt; AtmosphericConditionClass.HeightsAboveSurface.\nMust have the same length as height above surface list. Units: fraction of mean wind speed (0 to 1)"
+          },
+          "windSpeedVerticalGradientProfile_per_s_m": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "Wind speed vertical gradient profile at heights defined in List&lt;double&gt; AtmosphericConditionClass.HeightsAboveSurface.\nMust have the same length as height above surface list. Units: 1/s.m"
+          }
+        },
+        "description": "An atmospheric condition class."
+      },
+      "AtmosphericConditionProbabilitySector": {
+        "required": [
+          "fromDirection_degrees",
+          "toDirection_degrees",
+          "atmosphericConditionClassIds",
+          "probabilityForClasses"
+        ],
+        "type": "object",
+        "properties": {
+          "fromDirection_degrees": {
+            "maximum": 360,
+            "minimum": 0,
+            "type": "number",
+            "description": "Applies to flow cases with directions from and including direction.",
+            "format": "double"
+          },
+          "toDirection_degrees": {
+            "maximum": 360,
+            "minimum": 0,
+            "type": "number",
+            "description": "Applies to flow cases with directions up to (excluding) direction.",
+            "format": "double"
+          },
+          "atmosphericConditionClassIds": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "string"
+            },
+            "description": "The order of atmospheric condition class IDs in the ProbabilityForClass list."
+          },
+          "probabilityForClasses": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "The probability for each of the specified AtmosphericConditionClassIds. \n1.0 = 100% probability for the corresponding class. \nThe probabilities for a class are normalised to sum to 1.0 within this sector"
+          }
+        },
+        "description": "An atmospheric condition probability distribution sector."
+      },
+      "AtmosphericConditions": {
+        "required": [
+          "atmosphericConditionClasses",
+          "atmosphericConditionProbabilityDistribution"
+        ],
+        "type": "object",
+        "properties": {
+          "atmosphericConditionClasses": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/AtmosphericConditionClass"
+            },
+            "description": "A list of atmospheric condition classes."
+          },
+          "atmosphericConditionProbabilityDistribution": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/AtmosphericConditionProbabilitySector"
+            },
+            "description": "Probability distribution describing by direction frequency of the atmospheric condition classes."
+          }
+        },
+        "description": "Contains the atmospheric condition information to enrich existing wind climates"
+      },
+      "ReferenceAirDensity": {
+        "required": [
+          "airDensity_kg_per_m3",
+          "lapseRate_kg_per_m3_per_m",
+          "elevation_m"
+        ],
+        "type": "object",
+        "properties": {
+          "airDensity_kg_per_m3": {
+            "type": "number",
+            "description": "The reference air density.  Units: kg/m3",
+            "format": "double"
+          },
+          "lapseRate_kg_per_m3_per_m": {
+            "type": "number",
+            "description": "The reference air density lapse rate.  Units: (kg/m3)/m",
+            "format": "double"
+          },
+          "elevation_m": {
+            "type": "number",
+            "description": "The elevation of the reference air density.  Units: m",
+            "format": "double"
+          }
+        },
+        "description": "The reference air density and elevation."
+      },
+      "SpeedUpsForLocation": {
+        "required": [
+          "id",
+          "easting_m",
+          "northing_m",
+          "heightAboveGround_m",
+          "speedUps"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Unique identifier for a flow model point. Used to match to a turbine or wind climate.\nExpected format is:\n  * For turbines: [WindFarm Name]space[Turbine Name]\n  * For Wind climates: The wind climate Id string WindClimate.Id or string WeibullWindClimate.Id"
+          },
+          "easting_m": {
+            "type": "number",
+            "description": "Gets the easting. Units: m.",
+            "format": "double"
+          },
+          "northing_m": {
+            "type": "number",
+            "description": "Gets the northing. Units: m.",
+            "format": "double"
+          },
+          "heightAboveGround_m": {
+            "type": "number",
+            "description": "Gets the height above ground. Units: m.",
+            "format": "double"
+          },
+          "speedUps": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "The speedup values for each wind direction."
+          },
+          "isTarget": {
+            "type": "boolean",
+            "description": "Whether these speed ups refer to a target (usually turbine) or a source (usually measurement site). \nFor backwards compatibility this defaults: true",
+            "default": true
+          }
+        },
+        "description": "The relative speedup data for one location.\nAn instance of this class should always be part of a FlowModel"
+      },
+      "FlowModel": {
+        "required": [
+          "referenceDirections_degrees",
+          "speedsUps"
+        ],
+        "type": "object",
+        "properties": {
+          "referenceDirections_degrees": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "description": "The reference wind directions for each of the speedups provided. A sorted array is expected."
+          },
+          "speedsUps": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/SpeedUpsForLocation"
+            },
+            "description": "The relative speedups at each location."
+          }
+        },
+        "description": "The flow model data."
+      },
+      "TurbineFlowAndPerformanceMatrixLocalWindSpeedsOutputSettings": {
+        "type": "object",
+        "properties": {
+          "outputPowerOutput": {
+            "type": "boolean",
+            "description": "If true the Power Output with reference wind speeds at the mast flow and performance matrix will be output by the calculation.",
+            "default": false
+          },
+          "outputWakedWindSpeed": {
+            "type": "boolean",
+            "description": "If true the Waked Wind Speed with reference wind speeds at the mast flow and performance matrix will be output by the calculation.",
+            "default": false
+          },
+          "outputProbabilityDistribution": {
+            "type": "boolean",
+            "description": "If true the Probabilities distribution with local turbine wind speeds flow and performance matrix will be output by the calculation.",
+            "default": false
+          },
+          "outputWakedTurbulenceIntensity": {
+            "type": "boolean",
+            "description": "If true the Waked Turbulence Intensity with local turbine wind speeds flow and performance matrix will be output by the calculation.",
+            "default": false
+          },
+          "outputAmbientTurbulenceIntensity": {
+            "type": "boolean",
+            "description": "If true the Ambient Turbulence Intensity with local turbine wind speeds flow and performance matrix will be output by the calculation.",
+            "default": false
+          },
+          "outputOperationalMode": {
+            "type": "boolean",
+            "description": "If true the Operation model with local turbine wind speeds flow and performance matrix will be output by the calculation.",
+            "default": false
+          }
+        },
+        "description": "The output settings for flow and performance matrices in local turbine wind speeds"
+      },
+      "TurbineFlowAndPerformanceMatrixOutputSettings": {
+        "type": "object",
+        "properties": {
+          "outputMastToTurbineSpeedUp": {
+            "type": "boolean",
+            "description": "If true the mast to turbine speedup will be output by the calculation.",
+            "default": false
+          },
+          "outputAmbientWindSpeed": {
+            "type": "boolean",
+            "description": "If true the Ambient Wind Speed with reference wind speeds at the mast flow and performance matrix will be output by the calculation.",
+            "default": false
+          },
+          "outputAmbientTurbulenceIntensity": {
+            "type": "boolean",
+            "description": "If true the Ambient Turbulence Intensity with reference wind speeds at the mast flow and performance matrix will be output by the calculation.",
+            "default": false
+          },
+          "outputDominantWakeCenterLineWindSpeed": {
+            "type": "boolean",
+            "description": "If true the Dominant Wake Center-line Wind Speed with reference wind speeds at the mast flow and performance matrix will be output by the calculation.\nFPM is only available for wake models EddyViscosity and ModifiedPark.",
+            "default": false
+          },
+          "outputDominantWakeOffset": {
+            "type": "boolean",
+            "description": "If true the Dominant Wake Offset with reference wind speeds at the mast flow and performance matrix will be output by the calculation.\nFPM is only available for wake models EddyViscosity and ModifiedPark.",
+            "default": false
+          },
+          "outputDominantWakeWidth": {
+            "type": "boolean",
+            "description": "If true the Dominant Wake Width with reference wind speeds at the mast flow and performance matrix will be output by the calculation.\nFPM is only available for wake model EddyViscosity.",
+            "default": false
+          },
+          "outputWakedWindSpeed": {
+            "type": "boolean",
+            "description": "If true the Waked Wind Speed with reference wind speeds at the mast flow and performance matrix will be output by the calculation.",
+            "default": false
+          },
+          "outputAtmosphericAwareWakedWindSpeed": {
+            "type": "boolean",
+            "description": "If true the Atmospheric Condition Aware Waked Wind Speed flow and performance matrix, with reference wind speeds at the mast, will be output by the calculation.\nFPM is only available for wake model CFD.ML v2.0 and later.",
+            "default": false
+          },
+          "outputWakedTurbulenceIntensity": {
+            "type": "boolean",
+            "description": "If true the Waked Turbulence Intensity with reference wind speeds at the mast flow and performance matrix will be output by the calculation.",
+            "default": false
+          },
+          "outputPowerOutput": {
+            "type": "boolean",
+            "description": "If true the Power Output with reference wind speeds at the mast flow and performance matrix will be output by the calculation.",
+            "default": false
+          },
+          "outputAtmosphericAwarePowerOutput": {
+            "type": "boolean",
+            "description": "If true the Atmospheric Condition Aware Power Output with reference wind speeds at the mast flow and performance matrix will be output by the calculation.\nFPM is only available for wake model CFD.ML v2.0 and later.",
+            "default": false
+          },
+          "outputProbabilityDistribution": {
+            "type": "boolean",
+            "description": "If true the Probabilities distribution with reference wind speeds at the mast flow and performance matrix will be output by the calculation.",
+            "default": false
+          },
+          "outputUpstreamTurbineCausingWake": {
+            "type": "boolean",
+            "description": "If true the Upstream Turbine Name causing wake with reference wind speeds at the mast flow and performance matrix will be output by the calculation.\nFPM is only available for wake models EddyViscosity and ModifiedPark.",
+            "default": false
+          },
+          "outputOperationalMode": {
+            "type": "boolean",
+            "description": "If true the turbine operational mode for the turbine with reference wind speeds at the mast flow and performance matrix will be output",
+            "default": false
+          },
+          "localTurbineWindSpeedsOutputSettings": {
+            "description": "The output settings for the flow and performance matrices with local turbine wind speeds as reference.\nOnly fill this property in json if matrices in local wind speeds are needed, otherwise omit the property.",
+            "$ref": "#/components/schemas/TurbineFlowAndPerformanceMatrixLocalWindSpeedsOutputSettings"
+          }
+        },
+        "description": "The output settings for the turbine flow and performance matrices."
+      },
+      "ExtrapolationAmbientTurbulence": {
+        "enum": [
+          "ConstantWindSpeedStandardDeviation",
+          "ConstantTurbulenceIntensity",
+          "ModelDefault"
+        ],
+        "description": ""
+      },
+      "AirDensityCorrectionMethod": {
+        "enum": [
+          "WindFarmer5",
+          "IecMethod"
+        ],
+        "description": "The air density correction method to extrapolate power curve to turbine location air density"
+      },
+      "WakeModelType": {
+        "enum": [
+          "ModifiedPark",
+          "EddyViscosity",
+          "TurbOPark",
+          "CFDML",
+          "NoWakeModel"
+        ],
+        "description": "The type of wake calculation model"
+      },
+      "LargeWindFarmCorrectionParameters": {
+        "type": "object",
+        "properties": {
+          "baseRoughnessZ01": {
+            "type": "number",
+            "description": "Base Roughness Z01.",
+            "format": "double"
+          },
+          "increasedRoughnessZ02": {
+            "type": "number",
+            "description": "Increased Roughness Z02.",
+            "format": "double"
+          },
+          "geometricWidthDiameters": {
+            "type": "number",
+            "description": "Geometric Width Diameters.",
+            "format": "double",
+            "default": 1
+          },
+          "recoveryStartDiameters": {
+            "type": "number",
+            "description": "Recovery Start Diameters.",
+            "format": "double",
+            "default": 60
+          },
+          "fiftyPercentRecoveryDiameters": {
+            "type": "number",
+            "description": "Fifty Percent Recovery Diameters.",
+            "format": "double",
+            "default": 40
+          }
+        },
+        "description": "The large wind farm correction parameter values."
+      },
+      "WakeProfileIntegrationMethod": {
+        "enum": [
+          "Simpsons",
+          "Analytical"
+        ],
+        "description": "The wake profile over the rotor integral calculation method"
+      },
+      "EddyViscosity": {
+        "type": "object",
+        "properties": {
+          "useLargeWindFarmModel": {
+            "type": "boolean",
+            "description": "Wether to to use the large wind farm model. Default: true",
+            "default": true
+          },
+          "largeWindFarmCorrectionParameters": {
+            "description": "The large wind farm correction parameter values. Can be omited if useLargeWindFarmModel is false.",
+            "$ref": "#/components/schemas/LargeWindFarmCorrectionParameters"
+          },
+          "useCloselySpacedTurbinesWakeModification": {
+            "type": "boolean",
+            "description": "If true, the calculation will apply the closely spaced turbine modifications to the wake model when appropriate\nThe calculation only applies modifications wakes from turbines that are less than 3D apart.",
+            "default": false
+          },
+          "wakeProfileIntegrationMethod": {
+            "description": "The method to use to combine multiple wakes when calculating the rotor averaged wind speed.",
+            "$ref": "#/components/schemas/WakeProfileIntegrationMethod"
+          }
+        },
+        "description": "The Eddy Viscosity wake model settings"
+      },
+      "ModifiedPark": {
+        "type": "object",
+        "properties": {
+          "useLargeWindFarmModel": {
+            "type": "boolean",
+            "description": "Wether to to use the large wind farm model. Default: true",
+            "default": true
+          },
+          "largeWindFarmCorrectionParameters": {
+            "description": "The large wind farm correction parameter values. Can be omited if useLargeWindFarmModel is false.",
+            "$ref": "#/components/schemas/LargeWindFarmCorrectionParameters"
+          }
+        },
+        "description": "The Modified Park wake model settings."
+      },
+      "TurbOPark": {
+        "type": "object",
+        "properties": {
+          "wakeExpansion": {
+            "type": "number",
+            "description": "Parameter A : wake expansion calibration parameter.",
+            "format": "double",
+            "default": 0.04
+          }
+        },
+        "description": "The TurbOPark wake model settings."
+      },
+      "GnnType": {
+        "enum": [
+          "Offshore",
+          "Onshore"
+        ],
+        "description": "The GNN type to use in CFD.ML predictions"
+      },
+      "CfdmlWindSpeedExtrapolationModel": {
+        "enum": [
+          "BasicFlat",
+          "EddyViscosity",
+          "ModifiedPark"
+        ],
+        "description": "Extrapolate single wind speed Cfdml v2 results using the following model"
+      },
+      "Cfdml": {
+        "type": "object",
+        "properties": {
+          "gnnType": {
+            "description": "The GNN type to use in CFD.ML predictions",
+            "default": "Offshore",
+            "$ref": "#/components/schemas/GnnType"
+          },
+          "gnnVersion": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Version of the gnn to use. See release notes for the version number supported.",
+            "default": "1.1"
+          },
+          "extrapolationModel": {
+            "description": "Model used to extrapolate Cfdml v2 single wind speed model. \nOnly relevant when defining Cfdml as a wake model. Ignored when defining Cfdml as a blockage model only.\nRequired for Version &gt;= 2.0",
+            "$ref": "#/components/schemas/CfdmlWindSpeedExtrapolationModel"
+          }
+        },
+        "description": "The CFD.ML wake model settings"
+      },
+      "NoWakeModel": {
+        "type": "object",
+        "properties": {
+          "useLargeWindFarmModel": {
+            "type": "boolean",
+            "description": "Wether to to use the large wind farm model. Default: true",
+            "default": true
+          },
+          "largeWindFarmCorrectionParameters": {
+            "description": "The large wind farm correction parameter values. Can be omited if useLargeWindFarmModel is false.",
+            "$ref": "#/components/schemas/LargeWindFarmCorrectionParameters"
+          }
+        },
+        "description": "No wake model option settings."
+      },
+      "WakeModelSettings": {
+        "type": "object",
+        "properties": {
+          "wakeModelType": {
+            "description": "Wake model to use. If NoWakeModel the gross power will be provided.",
+            "$ref": "#/components/schemas/WakeModelType"
+          },
+          "eddyViscosity": {
+            "description": "The Eddy Viscosity wake model settings. Can be omited if WakeModelType is not EddyViscosity.",
+            "$ref": "#/components/schemas/EddyViscosity"
+          },
+          "modifiedPark": {
+            "description": "The Modified Park wake model settings. Can be omited if WakeModelType is not ModifiedPark.",
+            "$ref": "#/components/schemas/ModifiedPark"
+          },
+          "turbOPark": {
+            "description": "The TurbOPark wake model settings.  Can be omited if WakeModelType is not TurbOPark.",
+            "$ref": "#/components/schemas/TurbOPark"
+          },
+          "cfdml": {
+            "description": "The CFD.ML wake model settings. Can be omited if WakeModelType is not CFDML.",
+            "$ref": "#/components/schemas/Cfdml"
+          },
+          "noWakeModel": {
+            "description": "No Wake model settings. Can be omited if WakeModelType is not NoWakeModel.",
+            "$ref": "#/components/schemas/NoWakeModel"
+          }
+        },
+        "description": "The wake model settings."
+      },
+      "BlockageModelType": {
+        "enum": [
+          "NoBlockageModel",
+          "BEET",
+          "CFDML"
+        ],
+        "description": "Type of the blockage model to use."
+      },
+      "BlockageCorrectionApplicationMethod": {
+        "enum": [
+          "OnEnergy",
+          "OnWindSpeed"
+        ],
+        "description": "The type of blockage correction application method"
+      },
+      "BeetSettings": {
+        "required": [
+          "inclusionOfNeighborsBufferZoneInMeters"
+        ],
+        "type": "object",
+        "properties": {
+          "significantAtmosphericStability": {
+            "type": "boolean",
+            "description": "If true, There is significant atmospheric stability, if false the atmosphere is predominantly neutral or unstable."
+          },
+          "includeIntermediateResults": {
+            "type": "boolean",
+            "description": "Gets or sets whether to include intermediate result data or not.",
+            "default": false
+          },
+          "inclusionOfNeighborsBufferZoneInMeters": {
+            "type": "number",
+            "description": "Inclusion buffer for neighboring wind farms to be included in estimating blockage for the subject farm; units: meters\nNote: property only relevant when CalculateBlockage == true, and BlockageCorrectionApplicationMethod == OnWindSpeed.\n      However, when BlockageApplicationMethod == OnWindSpeed, the inclusion buffer needs to be set explicitly (may be 0 if all neighbours are to be excluded).",
+            "format": "double"
+          },
+          "blockageCorrectionApplicationMethod": {
+            "description": "Setting to specify whether to apply blockage correction on wind speed or on energy. Default value: OnEnergy. \nNote: if includeBlockage == False this settings is ignored.",
+            "default": "OnEnergy",
+            "$ref": "#/components/schemas/BlockageCorrectionApplicationMethod"
+          }
+        },
+        "description": "The Beet model settings"
+      },
+      "CfdmlBlockageSettings": {
+        "required": [
+          "cfdmlSettings"
+        ],
+        "type": "object",
+        "properties": {
+          "cfdmlSettings": {
+            "description": "The CFD.ML model settings",
+            "$ref": "#/components/schemas/Cfdml"
+          },
+          "includeIntermediateResults": {
+            "type": "boolean",
+            "description": "Gets or sets whether to include intermediate result data or not.",
+            "default": false
+          },
+          "blockageCorrectionApplicationMethod": {
+            "description": "Setting to specify whether to apply blockage correction on wind speed or on energy. Default value: OnEnergy. \nNote: if includeBlockage == False this settings is ignored.",
+            "default": "OnEnergy",
+            "$ref": "#/components/schemas/BlockageCorrectionApplicationMethod"
+          }
+        },
+        "description": "The CFD.ML blockage model settings"
+      },
+      "BlockageModelSettings": {
+        "type": "object",
+        "properties": {
+          "blockageModelType": {
+            "description": "The blockage model to use.",
+            "$ref": "#/components/schemas/BlockageModelType"
+          },
+          "beet": {
+            "description": "DNV BEET model settings. Can be omitted if BlockageModelType is not BEET.",
+            "$ref": "#/components/schemas/BeetSettings"
+          },
+          "cfdml": {
+            "description": "DNV CFD.ML model settings. Can be omitted if BlockageModelType is not CFD.ML.",
+            "$ref": "#/components/schemas/CfdmlBlockageSettings"
+          }
+        },
+        "description": "The blockage model settings."
+      },
+      "EnergyEfficienciesSettings": {
+        "required": [
+          "calculateEfficiencies",
+          "includeHysteresisEffect",
+          "includeCurtailmentRules",
+          "turbineFlowAndPerformanceMatrixOutputSettings",
+          "numberOfDirectionSectorsForWakeCalculation",
+          "maximumWindSpeedForEvaluation_m_per_s",
+          "wakeModel",
+          "blockageModel"
+        ],
+        "type": "object",
+        "properties": {
+          "calculateEfficiencies": {
+            "type": "boolean",
+            "description": "If true, the energy calculation will be run several times so that the efficiencies can be calculated."
+          },
+          "calculateIdealYield": {
+            "type": "boolean",
+            "description": "If true, the ideal (reference) yield is calculated.",
+            "default": false
+          },
+          "calculateSensitivityCurve": {
+            "type": "boolean",
+            "description": "If true, wind speed perturbation to energy perturbation sensitivity curves are computed and returned in the results.",
+            "default": false
+          },
+          "includeHysteresisEffect": {
+            "type": "boolean",
+            "description": "If true, the high wind cut-out hysteresis effect will be included."
+          },
+          "includeCurtailmentRules": {
+            "type": "boolean",
+            "description": "If true, the turbine management rules will be applied."
+          },
+          "turbineFlowAndPerformanceMatrixOutputSettings": {
+            "description": "The output settings for the turbine flow and performance matrices.",
+            "$ref": "#/components/schemas/TurbineFlowAndPerformanceMatrixOutputSettings"
+          },
+          "numberOfDirectionSectorsForWakeCalculation": {
+            "type": "integer",
+            "description": "The number of direction sectors to use for the wake calculation. Units: -",
+            "format": "int32"
+          },
+          "maximumWindSpeedForEvaluation_m_per_s": {
+            "type": "number",
+            "description": "If this is non-zero then all flow cases up to this mast wind speed will be evaluated and reported\nIf this is zero, then flow cases will be evaluated for every wind-speed bin that has non-zero frequency of occurrence. Units: m/s",
+            "format": "double"
+          },
+          "extrapolationAmbientTurbulence": {
+            "description": "The setting which defines whether to assume a constant std. dev. of wind speed or rather const. turbulence intensity.",
+            "default": "ModelDefault",
+            "$ref": "#/components/schemas/ExtrapolationAmbientTurbulence"
+          },
+          "airDensityCorrectionMethod": {
+            "description": "The method to use to extrapolate the power curve to the turbine location air density.",
+            "$ref": "#/components/schemas/AirDensityCorrectionMethod"
+          },
+          "wakeModel": {
+            "description": "The wake model settings.",
+            "$ref": "#/components/schemas/WakeModelSettings"
+          },
+          "blockageModel": {
+            "description": "The blockage model settings",
+            "$ref": "#/components/schemas/BlockageModelSettings"
+          }
+        },
+        "description": "The Annual Energy Production (AEP) calculation settings."
+      },
+      "EnergyCalculationInputs": {
+        "required": [
+          "projectInfo",
+          "windFarms",
+          "turbineModels",
+          "referenceAirDensity",
+          "flowModel",
+          "energyEfficienciesSettings"
+        ],
+        "type": "object",
+        "properties": {
+          "projectInfo": {
+            "description": "Project information.",
+            "$ref": "#/components/schemas/ProjectInfo"
+          },
+          "windFarms": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/WindFarm"
+            },
+            "description": "Wind farms to be included in the analysis."
+          },
+          "turbineModels": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/TurbineModel"
+            },
+            "description": "Turbine models used in the wind farms."
+          },
+          "windClimates": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/WindClimate"
+            },
+            "description": "The wind climate data provided as frequency and turbulence distributions. For use when this measured data exists.\nIf this list is specified then the List&lt;WeibullWindClimate&gt; EnergyCalculationInputs.WeibullWindClimates list should not be specified."
+          },
+          "weibullWindClimates": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/WeibullWindClimate"
+            },
+            "description": "The wind climate data provided as weibull parameters for probabilities and a single turbulence value. For use when measured data is not available.\nIf this list is specified then the List&lt;WindClimate&gt; EnergyCalculationInputs.WindClimates list should not be specified."
+          },
+          "atmosphericConditions": {
+            "description": "The atmospheric conditions that apply to existing wind climates.",
+            "$ref": "#/components/schemas/AtmosphericConditions"
+          },
+          "referenceAirDensity": {
+            "description": "The reference air density for the wind farm.",
+            "$ref": "#/components/schemas/ReferenceAirDensity"
+          },
+          "flowModel": {
+            "description": "The flow model data.",
+            "$ref": "#/components/schemas/FlowModel"
+          },
+          "energyEfficienciesSettings": {
+            "description": "The calculation settings.",
+            "$ref": "#/components/schemas/EnergyEfficienciesSettings"
+          }
+        },
+        "description": "A class for holding all the calculation inputs required for the energy calculation."
+      },
+      "CalculationQueuedResult": {
+        "type": "object",
+        "properties": {
+          "jobId": {
+            "type": "string",
+            "description": "Gets the Job ID.",
+            "format": "uuid"
+          }
+        },
+        "description": "Represents the result of queuing a job in OneCompute."
+      },
+      "BeetModelOutput": {
+        "type": "object",
+        "properties": {
+          "blockageEffect": {
+            "type": "number",
+            "description": "The blockage factor",
+            "format": "double"
+          },
+          "densityRotorDiameters": {
+            "type": "number",
+            "description": "Gets the density rotor diameters (Internal use only).",
+            "format": "double"
+          },
+          "blockageLossWs": {
+            "type": "number",
+            "description": "Gets the blockage loss wind speed percentage (Internal use only).",
+            "format": "double"
+          },
+          "hubHeightRotorDiameterMultiplier": {
+            "type": "number",
+            "description": "Gets the hub height rotor diameter multiplier (Internal use only).",
+            "format": "double"
+          }
+        },
+        "description": "The blockage model outputs"
+      },
+      "Status": {
+        "required": [
+          "message",
+          "windFarmerServicesAPIVersion",
+          "calculationLibraryVersion"
+        ],
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Gets or sets the response message."
+          },
+          "windFarmerServicesAPIVersion": {
+            "type": "string",
+            "description": "Gets or sets the WindFarmer services API assembly version."
+          },
+          "calculationLibraryVersion": {
+            "type": "string",
+            "description": "Gets or sets the calculation library version."
+          }
+        },
+        "description": "Status response model."
+      },
+      "Metadata": {
+        "type": "object",
+        "properties": {
+          "siteLatitude": {
+            "type": "number",
+            "description": "Latitude of the site",
+            "format": "double"
+          },
+          "siteLongitude": {
+            "type": "number",
+            "description": "Longitude of the site",
+            "format": "double"
+          },
+          "nearestEra5GridLatitude": {
+            "type": "number",
+            "description": "Latitude of the nearest Era5 grid point",
+            "format": "double"
+          },
+          "nearestEra5GridLongitude": {
+            "type": "number",
+            "description": "Longitude of the nearest Era5 grid point",
+            "format": "double"
+          },
+          "distanceToNearestGridPoint_km": {
+            "type": "number",
+            "description": "Distance to the nearest Era5 grid point in kilometers",
+            "format": "double"
+          },
+          "numberOfSectors": {
+            "type": "integer",
+            "description": "Number of directional sectors used in the analysis",
+            "format": "int32"
+          },
+          "coastlineDetectionRadius_km": {
+            "type": "number",
+            "description": "Radius in kilometers used for coastline detection",
+            "format": "double"
+          },
+          "stabilityClassificationMethod": {
+            "type": "string",
+            "description": "Method used for stability classification (e.g., \"hf\", \"mol\", \"blend\")"
+          },
+          "era5TimeSeriesStartDate": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Start date of the Era5 time series data"
+          },
+          "era5TimeSeriesEndDate": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "End date of the Era5 time series data"
+          }
+        },
+        "description": "Metadata about the site classification analysis"
+      },
+      "ComprehensiveSiteClassification": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "description": "Metadata about the site and analysis parameters",
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "atmosphericConditions": {
+            "description": "Atmospheric condition data compatible with WindFarmer calculations",
+            "$ref": "#/components/schemas/AtmosphericConditions"
+          }
+        },
+        "description": "Comprehensive site classification result with metadata and atmospheric conditions"
+      }
+    }
+  }
+}
