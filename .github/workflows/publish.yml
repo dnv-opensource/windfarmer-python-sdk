@@ -1,0 +1,81 @@
+name: Build and publish packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Where to publish the built packages
+        required: true
+        type: choice
+        options:
+          - testpypi
+          - pypi
+        default: testpypi
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Build dnv_windfarmer_client
+        working-directory: dnv_windfarmer_client
+        run: uv build
+
+      - name: Build dnv_windfarmer_sdk
+        working-directory: dnv_windfarmer_sdk
+        run: uv build
+
+      - name: Upload dnv_windfarmer_client artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dnv_windfarmer_client-dist
+          path: dnv_windfarmer_client/dist/
+
+      - name: Upload dnv_windfarmer_sdk artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dnv_windfarmer_sdk-dist
+          path: dnv_windfarmer_sdk/dist/
+
+  publish:
+    name: Publish to ${{ github.event.inputs.target }}
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.inputs.target }}
+    permissions:
+      id-token: write # required for PyPI trusted publishing
+    steps:
+      - name: Download dnv_windfarmer_client artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dnv_windfarmer_client-dist
+          path: dist
+
+      - name: Download dnv_windfarmer_sdk artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dnv_windfarmer_sdk-dist
+          path: dist
+
+      - name: Publish to TestPyPI
+        if: github.event.inputs.target == 'testpypi'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: dist
+
+      - name: Publish to PyPI
+        if: github.event.inputs.target == 'pypi'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist
