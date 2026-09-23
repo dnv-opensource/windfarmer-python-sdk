@@ -1,6 +1,6 @@
 [project]
 name = "dnv_windfarmer_sdk"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python SDK to access the WindFarmer API"
 readme = "README.md"
 authors = [
